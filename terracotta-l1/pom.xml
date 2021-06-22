@@ -21,7 +21,7 @@ The Initial Developer of the Covered Software is
   <parent>
     <groupId>org.terracotta</groupId>
     <artifactId>terracotta-l1-parent</artifactId>
-    <version>4.3.9-SNAPSHOT</version>
+    <version>4.3.9.3.33</version>
     <relativePath>../terracotta-l1-parent</relativePath>
   </parent>
 

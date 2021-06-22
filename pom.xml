@@ -28,7 +28,7 @@ The Initial Developer of the Covered Software is
 
   <groupId>org.terracotta</groupId>
   <artifactId>terracotta-root</artifactId>
-  <version>4.3.9-SNAPSHOT</version>
+  <version>4.3.9.3.33</version>
   <name>terracotta-root</name>
   <packaging>pom</packaging>
 
