@@ -23,7 +23,7 @@ The Initial Developer of the Covered Software is
   <parent>
     <groupId>org.terracotta</groupId>
     <artifactId>build-parent</artifactId>
-    <version>4.3.10-SNAPSHOT</version>
+    <version>4.3.10.0.37</version>
     <relativePath>../build-parent</relativePath>
   </parent>
 
