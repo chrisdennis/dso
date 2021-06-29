@@ -1,70 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-The contents of this file are subject to the Terracotta Public License Version
-2.0 (the "License"); You may not use this file except in compliance with the
-License. You may obtain a copy of the License at 
-
-     http://terracotta.org/legal/terracotta-public-license.
-
-Software distributed under the License is distributed on an "AS IS" basis,
-WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
-the specific language governing rights and limitations under the License.
-
-The Covered Software is Terracotta Platform.
-
-The Initial Developer of the Covered Software is 
-     Terracotta, Inc., a Software AG company
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>org.terracotta</groupId>
     <artifactId>terracotta-parent</artifactId>
-    <version>4.3.9-SNAPSHOT</version>
+    <version>4.3.9.3.35</version>
     <relativePath>../terracotta-parent/pom.xml</relativePath>
   </parent>
-
   <groupId>org.terracotta.internal</groupId>
   <artifactId>terracotta-kit</artifactId>
   <packaging>pom</packaging>
   <name>Terracotta Kit</name>
-
   <properties>
     <product.name>terracotta-kit</product.name>
     <kit.name>${product.name}-${project.version}</kit.name>
     <root.dir>${project.build.directory}/${kit.name}</root.dir>
-
-    <ehcache.version>2.10.9-SNAPSHOT</ehcache.version>
+    <ehcache.version>2.10.9.3.35</ehcache.version>
     <toolkit-api.version>2.1.0</toolkit-api.version>
     <escrow-maven-plugin.version>1.0.3-SNAPSHOT</escrow-maven-plugin.version>
     <management-cli.version>${project.version}</management-cli.version>
     <terracotta.license>LICENSE.txt</terracotta.license>
-
     <jersey.version>2.31</jersey.version>
   </properties>
-
   <dependencies>
-	<dependency>
-		<groupId>org.terracotta</groupId>
-		<artifactId>management-cli-oss</artifactId>
-		<version>${project.version}</version>
-		<classifier>with-dependencies</classifier>
-        <type>zip</type>
-	</dependency>
-	<dependency>
-		<groupId>org.terracotta</groupId>
-		<artifactId>server-script</artifactId>
-		<version>${project.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.terracotta</groupId>
-		<artifactId>terracotta</artifactId>
-		<version>${project.version}</version>
-	</dependency>
-
-    <!-- toolkit -->
+    <dependency>
+      <groupId>org.terracotta</groupId>
+      <artifactId>management-cli-oss</artifactId>
+      <version>${project.version}</version>
+      <classifier>with-dependencies</classifier>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>org.terracotta</groupId>
+      <artifactId>server-script</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.terracotta</groupId>
+      <artifactId>terracotta</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.terracotta.toolkit</groupId>
       <artifactId>terracotta-toolkit-api</artifactId>
@@ -86,8 +60,6 @@ The Initial Developer of the Covered Software is
       <version>${project.version}</version>
       <type>war</type>
     </dependency>
-
-    <!-- ehcache -->
     <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache-kit</artifactId>
@@ -112,7 +84,6 @@ The Initial Developer of the Covered Software is
       <version>${project.version}</version>
     </dependency>
   </dependencies>
-
   <build>
     <plugins>
       <plugin>
@@ -137,7 +108,6 @@ The Initial Developer of the Covered Software is
               <excludes>
                 <exclude>**</exclude>
               </excludes>
-
               <finalName>ehcache-terracotta-client-all</finalName>
             </configuration>
           </execution>
@@ -158,10 +128,9 @@ The Initial Developer of the Covered Software is
                 <param>org.terracotta:terracotta:${project.version}</param>
               </artifacts>
               <resolveTransitively>true</resolveTransitively>
-              <outputDir>${project.build.directory}/server-lib</outputDir>          
+              <outputDir>${project.build.directory}/server-lib</outputDir>
             </configuration>
-
-          </execution> 
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -179,7 +148,6 @@ The Initial Developer of the Covered Software is
               <includeTypes>war</includeTypes>
               <outputDirectory>${project.build.directory}/server-lib</outputDirectory>
             </configuration>
-
           </execution>
           <execution>
             <id>unpack</id>
@@ -214,7 +182,7 @@ The Initial Developer of the Covered Software is
                   <overWrite>false</overWrite>
                   <outputDirectory>${project.build.directory}</outputDirectory>
                 </artifactItem>
-                 <artifactItem>
+                <artifactItem>
                   <groupId>org.terracotta</groupId>
                   <artifactId>server-script</artifactId>
                   <version>${project.version}</version>
@@ -250,10 +218,9 @@ The Initial Developer of the Covered Software is
             </goals>
           </execution>
         </executions>
-      </plugin>      
+      </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
       <id>tc-publish</id>
@@ -276,11 +243,10 @@ The Initial Developer of the Covered Software is
                 </configuration>
               </execution>
             </executions>
-          </plugin>        
+          </plugin>
         </plugins>
       </build>
     </profile>
-    
     <profile>
       <id>includeJavadoc</id>
       <activation>
@@ -327,10 +293,6 @@ The Initial Developer of the Covered Software is
         </plugins>
       </build>
     </profile>
-
-    <!-- *********************************************** -->
-    <!--   profile to make a patch tarball from the kit  -->    
-    <!-- *********************************************** -->     
     <profile>
       <id>patch</id>
       <build>
