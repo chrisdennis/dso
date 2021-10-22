@@ -67,7 +67,6 @@ public class PeriodicEvictionTrigger extends AbstractEvictionTrigger {
     private int ttl = 0;
     private boolean completed = false;
     private volatile boolean stop = false;
-    private final ObjectManager  mgr;
     private final ObjectIDSet exclusionList;
     private final ObjectIDSet passList = new BitSetObjectIDSet();
     
@@ -137,12 +136,12 @@ public class PeriodicEvictionTrigger extends AbstractEvictionTrigger {
         }
     });
     
-    public PeriodicEvictionTrigger(ObjectManager mgr, ObjectID oid) {
-        this(mgr,oid,new BitSetObjectIDSet(), true);
+    public PeriodicEvictionTrigger(ObjectID oid) {
+        this(oid,new BitSetObjectIDSet(), true);
     }
     
     public PeriodicEvictionTrigger duplicate() {
-        PeriodicEvictionTrigger nt = new PeriodicEvictionTrigger(mgr,getId());
+        PeriodicEvictionTrigger nt = new PeriodicEvictionTrigger(getId());
         nt.sampleAmount = sampleAmount - 5;
         if ( nt.sampleAmount <= 0 ) {
             nt.sampleAmount = 1;
@@ -150,10 +149,9 @@ public class PeriodicEvictionTrigger extends AbstractEvictionTrigger {
         return nt;
     }
     
-    public PeriodicEvictionTrigger(ObjectManager mgr, ObjectID oid, ObjectIDSet exclude, boolean runAlways) {
+    public PeriodicEvictionTrigger(ObjectID oid, ObjectIDSet exclude, boolean runAlways) {
         super(oid);
         this.runAlways = runAlways;
-        this.mgr = mgr;
         this.exclusionList = exclude;
     }
     
@@ -164,10 +162,6 @@ public class PeriodicEvictionTrigger extends AbstractEvictionTrigger {
     @Override
     public int getCount() {
         return filtered;
-    }
-    
-    protected ObjectManager getObjectManager() {
-        return mgr;
     }
     
     public boolean isExpirationOnly() {

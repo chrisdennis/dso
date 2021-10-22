@@ -306,13 +306,13 @@ public class ProgressiveEvictionManager implements ServerMapEvictionManager {
     return false;
   }
   
-  PeriodicEvictionTrigger schedulePeriodicEviction(ObjectID oid) {
-    if ( evictor.markEvictionInProgress(oid) ) {
-      PeriodicEvictionTrigger periodic = new PeriodicEvictionTrigger(objectManager, oid);
-      doEvictionOn(periodic);
-      return periodic;
+  boolean schedulePeriodicEviction(PeriodicEvictionTrigger trigger) {
+    if ( evictor.markEvictionInProgress(trigger.getId()) ) {
+      doEvictionOn(trigger);
+      return true;
+    } else {
+      return false;
     }
-    return null;
   }
 
   private boolean scheduleEvictionTrigger(final EvictionTrigger triggerParam) {

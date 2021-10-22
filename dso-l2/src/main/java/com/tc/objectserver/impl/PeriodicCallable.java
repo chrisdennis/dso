@@ -24,6 +24,7 @@ import com.tc.util.ObjectIDSet;
 
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  *
@@ -34,6 +35,7 @@ public class PeriodicCallable implements Callable<SampledRateCounter>, CanCancel
     private final Set<ObjectID> workingSet;
     private final Set<ObjectID> listeningSet;
     private final ProgressiveEvictionManager evictor;
+    private final AtomicBoolean rescheduled = new AtomicBoolean(false);
 
     private boolean stopped = false;
     private PeriodicEvictionTrigger current;
@@ -75,9 +77,9 @@ public class PeriodicCallable implements Callable<SampledRateCounter>, CanCancel
       try {
         evictor.addEvictionListener(this);
         for (final ObjectID mapID : workingSet) {
-          PeriodicEvictionTrigger trigger = evictor.schedulePeriodicEviction(mapID);
-          if ( trigger != null ) {
-            setCurrent(trigger);
+          PeriodicEvictionTrigger trigger = new PeriodicEvictionTrigger(mapID);
+          setCurrent(trigger);
+          if (evictor.schedulePeriodicEviction(trigger)) {
             counter.increment(trigger.getCount(),trigger.getRuntimeInMillis());
             if ( trigger.filterRatio() > .66f ) {
               rollover.add(mapID);
@@ -95,14 +97,13 @@ public class PeriodicCallable implements Callable<SampledRateCounter>, CanCancel
         boolean reschedule = false;
         synchronized (this) {
           workingSet.clear();
+          workingSet.addAll(rollover);
           current = null;
           if ( !stopped && listeningSet.isEmpty() && !rollover.isEmpty() ) {
             reschedule = true;
-          } else {
-            workingSet.addAll(rollover);
           }
         }
-        if (reschedule) {
+        if (reschedule && rescheduled.compareAndSet(false, true)) {
           evictor.schedulePeriodicEvictionRun(rollover);
         }
       }
@@ -131,7 +132,7 @@ public class PeriodicCallable implements Callable<SampledRateCounter>, CanCancel
         complete = false;
       }
     }
-    if (reschedule) {
+    if (reschedule && rescheduled.compareAndSet(false, true)) {
       evictor.schedulePeriodicEvictionRun(newWorkingSet);
     }
     return complete;
