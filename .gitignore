@@ -1,2 +1,5 @@
-/svnmerge-commit-message.txt
-/.tc-build-cache
+/.classpath
+/.project
+/target
+/devwork
+
