@@ -28,8 +28,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import static com.tc.util.properties.SslSettings.TRUST_ALL_CERTS;
-
 /**
  * @author Ludovic Orban
  */
@@ -48,7 +46,7 @@ public class TSASSLSocketFactory extends SSLSocketFactory implements RMIClientSo
     SSLContext ctx = SSLContext.getInstance("TLS");
 
     TrustManager[] trustManagers = null;
-    if (TRUST_ALL_CERTS) {
+    if (Boolean.getBoolean("tc.ssl.trustAllCerts")) {
       // trust all certs
       trustManagers = new TrustManager[] {
           new X509TrustManager() {
